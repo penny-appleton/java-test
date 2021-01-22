@@ -41,7 +41,7 @@ configurations {
 
 application {
     // Define the main class for the application.
-    mainClass = 'HenrysGrocery.App'
+    mainClass = 'henrysGrocery.App'
 }
 
 tasks.named('test') {
@@ -53,9 +53,9 @@ task 'cucumber' {
     dependsOn assemble, compileTestJava
     doLast{
         javaexec {
-            main = "cucumber.api.cli.Main"
+            main = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
-            args = ['--plugin', 'pretty', '--glue', 'test/stepDefinitions', 'test/resources']
+            args = ['--plugin', 'pretty', '--glue', 'edu.henrys.grocery.step.definitions', 'src/test/resources']
         }
     }
 }
