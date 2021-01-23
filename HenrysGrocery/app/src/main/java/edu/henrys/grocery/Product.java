@@ -1,7 +1,7 @@
 package edu.henrys.grocery;
 
 public enum Product {
-	MILK (1.30), APPLES (.10), SOUP (.65), BREAD (.80);
+	MILK (1.30), APPLE (.10), SOUP (.65), BREAD (.80);
 	
 	private double pricePerUnit;
 

@@ -3,74 +3,49 @@
  */
 package edu.henrys.grocery;
 
-import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Store {
-	private String product;
-	private int quantity;
-
-	
+	private List<LineItem> lineItems = new ArrayList<>();
 
 	public static void main(String[] args) {
 		Store hg = new Store();
-		Scanner sc= new Scanner(System.in);
+
+		Scanner sc = new Scanner(System.in);
 		System.out.println(hg.getGreeting());
-		
-		System.out.println("Enter the Product Name you wish to add to your basket");
-		String p =sc.nextLine();
-		
+
+		System.out.println("Enter the product name you wish to add to your basket");
+		String p = sc.nextLine();
+
 		System.out.println("Enter the quantity of the product");
 		int q = sc.nextInt();
-		
+
 		sc.close();
+
+		hg.addToBasket(p, q);
 		
-		hg.addToBasket(p,q);
-		System.out.println(hg.buildLineItem());	
-		
+
 	}
-	
+
 	public String getGreeting() {
 		return "Welcome";
 	}
 
 	public void addToBasket(String product, int quantity) {
-		this.product = product;
-		this.quantity = quantity;
-	}
+		LineItem li = new LineItem(product, quantity);
+		lineItems.add(li);
+		System.out.println(li.getLineItemDetails());
 
-	public String getProduct() {
-		return product;
 	}
 	
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public double subtotal() {
+	public List<LineItem> getLineItems() {
 		
-		return quantity * getPricePerUnit(product);
+		return lineItems;
 		
 	}
 
-	public String buildLineItem() {
-		DecimalFormat df = new DecimalFormat("#.00");
-		StringBuilder builder = new StringBuilder();
-		builder.append("Product: ");
-		builder.append(product);
-		builder.append("  Quantity: ");
-		builder.append(quantity);
-		builder.append("  Cost/Unit: $");
-		builder.append(df.format(getPricePerUnit(product)));
-		builder.append("  Line item total: $");
-		builder.append(df.format(subtotal()));
-		
-		return builder.toString();
-	}
 
-	public double getPricePerUnit(String string) {
-		
-		
-		return Product.valueOf(string.toUpperCase()).getPricePerUnit();
-	}
+
 }
