@@ -47,8 +47,9 @@ public class Store {
 		return quantity;
 	}
 
-	public String subtotal() {
-		return "$ 2.60";
+	public double subtotal() {
+		
+		return quantity * getPricePerUnit(product);
 		
 	}
 
@@ -61,8 +62,8 @@ public class Store {
 		builder.append(quantity);
 		builder.append("  Cost/Unit: $");
 		builder.append(df.format(getPricePerUnit(product)));
-		builder.append("  Line item total: ");
-		builder.append(subtotal());
+		builder.append("  Line item total: $");
+		builder.append(df.format(subtotal()));
 		
 		return builder.toString();
 	}

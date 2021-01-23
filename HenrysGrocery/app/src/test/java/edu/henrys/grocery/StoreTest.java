@@ -28,13 +28,13 @@ class StoreTest {
     @Test void newSubtotalShouldBeReturnedWhenProductIsAddedToBasket(){
     	henrysGrocery.addToBasket("Milk", 2);
     	
-    	assertEquals(henrysGrocery.subtotal(), "$ 2.60");
+    	assertEquals(henrysGrocery.subtotal(), 2.6);
     }
     
     @Test void lineItemForEachProductShouldIncludeProductNameQuantityPricePerUnitAndSubTotal() {
     	henrysGrocery.addToBasket("Milk", 2);
     	
-    	assertEquals(henrysGrocery.buildLineItem(), "Product: Milk  Quantity: 2  Cost/Unit: $1.30  Line item total: $ 2.60");
+    	assertEquals(henrysGrocery.buildLineItem(), "Product: Milk  Quantity: 2  Cost/Unit: $1.30  Line item total: $2.60");
     }
     
     @Test void shouldGetPriceOfProductEntered() {
