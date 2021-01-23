@@ -5,13 +5,16 @@ package edu.henrys.grocery;
 
 import org.junit.jupiter.api.Test;
 
-import edu.henrys.grocery.App;
+import edu.henrys.grocery.Store;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AppTest {
+import org.junit.Ignore;
+
+class StoreTest {
+	//@Ignore
     @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+        Store henrysGrocery = new Store();
+        assertEquals(henrysGrocery.getGreeting(), "Welcome, please enter product and quantity");
     }
 }
