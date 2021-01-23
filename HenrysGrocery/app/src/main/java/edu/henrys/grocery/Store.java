@@ -3,6 +3,7 @@
  */
 package edu.henrys.grocery;
 
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class Store {
@@ -25,8 +26,7 @@ public class Store {
 		sc.close();
 		
 		hg.addToBasket(p,q);
-		System.out.println(hg.subtotal());
-		
+		System.out.println(hg.buildLineItem());	
 		
 	}
 	
@@ -50,5 +50,26 @@ public class Store {
 	public String subtotal() {
 		return "$ 2.60";
 		
+	}
+
+	public String buildLineItem() {
+		DecimalFormat df = new DecimalFormat("#.00");
+		StringBuilder builder = new StringBuilder();
+		builder.append("Product: ");
+		builder.append(product);
+		builder.append("  Quantity: ");
+		builder.append(quantity);
+		builder.append("  Cost/Unit: $");
+		builder.append(df.format(getPricePerUnit(product)));
+		builder.append("  Line item total: ");
+		builder.append(subtotal());
+		
+		return builder.toString();
+	}
+
+	public double getPricePerUnit(String string) {
+		
+		
+		return Product.valueOf(string.toUpperCase()).getPricePerUnit();
 	}
 }
