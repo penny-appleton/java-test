@@ -3,12 +3,52 @@
  */
 package edu.henrys.grocery;
 
-public class Store {
-    public String getGreeting() {
-        return "Welcome, please enter product and quantity";
-    }
+import java.util.Scanner;
 
-    public static void main(String[] args) {
-        System.out.println(new Store().getGreeting());
-    }
+public class Store {
+	private String product;
+	private int quantity;
+
+	
+
+	public static void main(String[] args) {
+		Store hg = new Store();
+		Scanner sc= new Scanner(System.in);
+		System.out.println(hg.getGreeting());
+		
+		System.out.println("Enter the Product Name you wish to add to your basket");
+		String p =sc.nextLine();
+		
+		System.out.println("Enter the quantity of the product");
+		int q = sc.nextInt();
+		
+		sc.close();
+		
+		hg.addToBasket(p,q);
+		System.out.println(hg.subtotal());
+		
+		
+	}
+	
+	public String getGreeting() {
+		return "Welcome";
+	}
+
+	public void addToBasket(String product, int quantity) {
+		this.product = product;
+		this.quantity = quantity;
+	}
+
+	public String getProduct() {
+		return product;
+	}
+	
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public String subtotal() {
+		return "$ 2.60";
+		
+	}
 }

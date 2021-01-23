@@ -9,12 +9,28 @@ import edu.henrys.grocery.Store;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Ignore;
 
 class StoreTest {
-	//@Ignore
+	Store henrysGrocery = new Store();
+	
     @Test void appHasAGreeting() {
-        Store henrysGrocery = new Store();
-        assertEquals(henrysGrocery.getGreeting(), "Welcome, please enter product and quantity");
+        
+        assertEquals(henrysGrocery.getGreeting(), "Welcome");
     }
+    
+    @Test void customerShouldBeAbleToAddProductsToBasket() {
+    	henrysGrocery.addToBasket("Milk", 2);
+    	
+    	assertEquals(henrysGrocery.getProduct(), "Milk");
+    	assertEquals(henrysGrocery.getQuantity(), 2);
+    }
+    
+    @Test void newSubtotalShouldBeReturnedWhenProductIsAddedToBasket(){
+    	henrysGrocery.addToBasket("Milk", 2);
+    	
+    	assertEquals(henrysGrocery.subtotal(), "$ 2.60");
+    }
+    
+    
+    
 }
