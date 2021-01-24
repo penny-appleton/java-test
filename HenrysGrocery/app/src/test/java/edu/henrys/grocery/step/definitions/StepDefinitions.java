@@ -7,13 +7,18 @@ import io.cucumber.java8.En;
 
 public class StepDefinitions implements En {
 
-	private Store henrysGrocery = new Store();
-	private double totalCost = 0;
+	private Store henrysGrocery;
+	private String totalCost = "0";
 	
 	
 	public StepDefinitions() {
+		Before(() -> {
+			henrysGrocery = new Store();
+			henrysGrocery.startTransaction();
+		});
 	
-	Given("I have {int} tin of {word}", (Integer count, String word) -> {
+	Given("I have {int} {word}", (Integer count, String word) -> {
+		
 		henrysGrocery.addToBasket(word, count);
 	});
 
@@ -21,7 +26,7 @@ public class StepDefinitions implements En {
 		totalCost = henrysGrocery.checkout();
 	});
 
-	Then("The total cost should be ${double}", (Double totalCost) -> {
+	Then("The total cost should be ${word}", (String totalCost) -> {
 	   assertEquals(totalCost, this.totalCost );
 	});
 	

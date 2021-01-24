@@ -36,5 +36,13 @@ public class LineItem {
 		
 	}
 	
+	public String getProductName() {
+		return product;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+	
 }
 

@@ -11,12 +11,12 @@ class LineItemTest {
 	@Test
 	void newSubtotalShouldBeReturnedWhenProductIsAddedToBasket() {
 
-		assertEquals(li.subtotal(), 2.6);
+		assertEquals(2.6, li.subtotal());
 	}
 	
   @Test void lineItemForEachProductShouldIncludeProductNameQuantityPricePerUnitAndSubTotal() {
 	
 	
-	assertEquals(li.getLineItemDetails(), "Product: Milk  Quantity: 2  Cost/Unit: $1.30  Line item total: $2.60");
+	assertEquals( "Product: Milk  Quantity: 2  Cost/Unit: $1.30  Line item total: $2.60", li.getLineItemDetails());
 }
 }
