@@ -19,12 +19,10 @@ jobs:
     - name: Set up JDK 1.11
       uses: actions/setup-java@v1
       with:
-        java-version: 1.11
-    - name: location of gradle wrapper  
-      with:
-        path: ~/java-test/HenrysGrocery
+        java-version: 1.11/ 
     - name: Grant execute permission for gradlew   
       run: chmod +x gradlew
+      working-directory: java-test/HenrysGrocery
     - name: Build with Gradle
       run: gradlew build
       
