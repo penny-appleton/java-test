@@ -24,6 +24,23 @@ class StoreTest {
     	
     }
     
+    @Test void customerShouldBeAbleToAddMultipleTypesOfProductsToBasket() {
+    	henrysGrocery.addToBasket("Apple", 4);
+    	henrysGrocery.addToBasket("Bread", 2);
+    	
+    	assertEquals(henrysGrocery.getLineItems().size(), 2);
+    	
+    	
+    }
+    
+    @Test void customerShouldGetTotalAfterAllItemsAdded() {
+    	henrysGrocery.addToBasket("Apple", 4);
+    	henrysGrocery.addToBasket("Bread", 2);
+    	
+    	
+    	assertEquals(henrysGrocery.checkout(), 2.0);
+    }
+    
    
     
 
