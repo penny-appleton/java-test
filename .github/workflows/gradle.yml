@@ -20,9 +20,9 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.11 
-    - name: Grant execute permission for gradlew   
+    - name: Grant execute permission for gradlew 
+      working-directory: java-test/HenrysGrocery  
       run: chmod +x gradlew
-      working-directory: java-test/HenrysGrocery
     - name: Build with Gradle
       run: gradlew build
       
