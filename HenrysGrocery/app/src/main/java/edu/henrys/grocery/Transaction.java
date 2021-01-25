@@ -40,7 +40,7 @@ public class Transaction {
 			total = total + lineItem.subtotal();
 		});
 		
-		return total;
+		return total - getDiscountAmount();
 	}
 
 	public int getNumberOfItems() {
@@ -49,6 +49,13 @@ public class Transaction {
 		});
 
 		return numberOfItems;
+	}
+	
+	private double getDiscountAmount() {
+		Discount d = new Discount();
+		 
+		
+		return d.calculateDiscountAmount(lineItems);
 	}
 
 }

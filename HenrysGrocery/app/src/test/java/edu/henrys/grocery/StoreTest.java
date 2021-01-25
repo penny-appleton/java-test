@@ -37,11 +37,11 @@ class StoreTest {
     }
     
     @Test void customerShouldGetTotalAfterAllItemsAdded() {
-    	henrysGrocery.addToBasket("Apple", 4);
+    	henrysGrocery.addToBasket("Milk", 4);
     	henrysGrocery.addToBasket("Bread", 2);
     	
     	
-    	assertEquals("2.00", henrysGrocery.checkout());
+    	assertEquals("6.80", henrysGrocery.checkout());
     }
     
    

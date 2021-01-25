@@ -14,5 +14,14 @@ class TransactionTest {
 		assertEquals("Soup", ta.findLineItem("soup").getProductName());
 		
 	}
+	
+	@Test void shouldDetermineDiscountBeforeGettingTotal() {
+		Transaction ta = new Transaction();
+		ta.addLineItem("apple", 6);
+		
+		assertEquals(".54", ta.getTotal());
+	}
+	
+	
 
 }
