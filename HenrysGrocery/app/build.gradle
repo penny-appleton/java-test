@@ -41,7 +41,11 @@ configurations {
 
 application {
     // Define the main class for the application.
-    mainClass = 'henrysGrocery.App'
+    mainClass = 'edu.henrys.grocery.Store'
+}
+
+run{
+    standardInput = System.in
 }
 
 tasks.named('test') {

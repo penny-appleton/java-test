@@ -42,6 +42,7 @@ public class Store {
 		System.out.println(t.getLineItemReport(product));
 	}
 
+	//I don't like this implementation
 	public String checkout() {
 		String totalCost = t.getTotal();
 		System.out.println("Your total is: $" + totalCost);
