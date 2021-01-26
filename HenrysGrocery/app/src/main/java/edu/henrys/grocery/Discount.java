@@ -1,23 +1,55 @@
 package edu.henrys.grocery;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Discount {
 
-	public double calculateDiscountAmount(List<LineItem> lineItems) {
-		getApplesDiscount(lineItems);
-		getBreadDiscount(lineItems);
+	private List<DiscountOffer> eligibleDiscounts = new ArrayList<>();
+	
+	
+//refactor this too many if statements
+	public double calculateDiscountAmount(List<LineItem> lineItems, LocalDate transactionDate) {
+		if (findEligibleDiscounts(transactionDate).size() > 0) {
+			double apples = 0;
+			double bread = 0;
+			for (DiscountOffer eligibleDiscount : eligibleDiscounts) {
+				if (eligibleDiscount.getProductToDiscount() == DiscountOffer.APPLE_DISCOUNT.getProductToDiscount()) {
+					apples = getApplesDiscount(lineItems);
+				}
 
-		return getApplesDiscount(lineItems) + getBreadDiscount(lineItems);
+				if (eligibleDiscount.getProductToDiscount() == DiscountOffer.BREAD_DISCOUNT.getProductToDiscount()) {
+					bread = getBreadDiscount(lineItems);
+				}
+			}
+			return apples + bread;
+		}
 
+		return 0;
+
+	}
+
+	private List<DiscountOffer> findEligibleDiscounts(LocalDate transactionDate) {
+		List<DiscountOffer> discountOffers = Arrays.asList(DiscountOffer.values());
+
+		for (DiscountOffer discountOffer : discountOffers) {
+			if (transactionDate.isAfter(discountOffer.getStartDate())
+					&& transactionDate.isBefore(discountOffer.getEndDate())) {
+				eligibleDiscounts.add(discountOffer);
+			}
+		}
+
+		return eligibleDiscounts;
 	}
 
 	private double getApplesDiscount(List<LineItem> lineItems) {
 		List<LineItem> apples = lineItems.stream().filter(item -> item.getProductName().equalsIgnoreCase("apple"))
 				.collect(Collectors.toList());
-		try {
 
+		try {
 			if (apples.size() > 0) {
 				return Math.round((apples.get(0).subtotal() * .1) * 100.00) / 100.00;
 
@@ -28,14 +60,11 @@ public class Discount {
 		}
 
 		return 0;
-
 	}
 
 	private double getBreadDiscount(List<LineItem> lineItems) {
-		boolean milk = checkForBreadLineItem(lineItems);
-		boolean soupQualification = checkForSoupLineItemAndQuantity(lineItems);
 
-		if (milk == true && soupQualification == true) {
+		if (checkForBreadLineItem(lineItems) == true && checkForSoupLineItemAndQuantity(lineItems) == true) {
 			return Product.BREAD.getPricePerUnit() * .5;
 		}
 

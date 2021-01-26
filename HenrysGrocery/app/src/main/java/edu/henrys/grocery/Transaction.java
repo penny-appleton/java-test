@@ -1,6 +1,7 @@
 package edu.henrys.grocery;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,6 +11,11 @@ public class Transaction {
 	private List<LineItem> lineItems = new ArrayList<>();
 	private double total;
 	private int numberOfItems;
+	private LocalDate transactionDate;
+	
+	public Transaction(LocalDate transactionDate) {
+		this.transactionDate = transactionDate;
+	}
 
 	public void addLineItem(String product, int quantity) {
 		LineItem li = new LineItem(product, quantity);
@@ -55,7 +61,7 @@ public class Transaction {
 		Discount d = new Discount();
 		 
 		
-		return d.calculateDiscountAmount(lineItems);
+		return d.calculateDiscountAmount(lineItems, transactionDate);
 	}
 
 }

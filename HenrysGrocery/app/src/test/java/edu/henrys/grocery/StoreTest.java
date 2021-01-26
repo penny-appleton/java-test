@@ -44,6 +44,9 @@ class StoreTest {
     	assertEquals("6.80", henrysGrocery.checkout());
     }
     
+
+  
+    
    
     
 
