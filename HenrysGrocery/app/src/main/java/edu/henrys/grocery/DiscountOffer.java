@@ -5,7 +5,7 @@ import java.time.temporal.TemporalAdjusters;
 
 public enum DiscountOffer {
 
-	APPLE_DISCOUNT("apples", "apples", LocalDate.now().plusDays(3), LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()).plusMonths(1), 10), BREAD_DISCOUNT("soup", "bread", LocalDate.now().minusDays(1), LocalDate.now().plusDays(7), .5);
+	APPLE_DISCOUNT("apples", "apples", LocalDate.now().plusDays(3), LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()).plusMonths(1), .10), BREAD_DISCOUNT("soup", "bread", LocalDate.now().minusDays(1), LocalDate.now().plusDays(7), .5);
 
 	private final String qualifyingProductName;
 	private final String productToDiscountName;

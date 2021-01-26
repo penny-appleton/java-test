@@ -52,10 +52,26 @@ class DiscountTest {
 		assertEquals(.40, d.calculateDiscountAmount(basketWith6Apple2SoupAnd2Bread(), todaysDate));
 	}
 	
+	@Test void whenDiscountIsExpiredIShouldNotGetADiscount() {
+		setAllDiscountsToExpired();
+		
+		assertEquals(0.00, d.calculateDiscountAmount(basketWith6Apple2SoupAnd2Bread(), todaysDate));
+	}
+	
 	
 	
 
+
+
 	//Test Helpers
+	
+	private void setAllDiscountsToExpired() {
+		DiscountOffer.APPLE_DISCOUNT.setStartDate(LocalDate.now().minusDays(30));
+		DiscountOffer.APPLE_DISCOUNT.setEndDate(LocalDate.now().minusDays(20));
+		DiscountOffer.BREAD_DISCOUNT.setStartDate(LocalDate.now().minusDays(10));
+		DiscountOffer.BREAD_DISCOUNT.setEndDate(LocalDate.now().minusDays(1));
+		
+	}
 	
 	private void setAllDiscountsEligible() {
 		DiscountOffer.APPLE_DISCOUNT.setStartDate(LocalDate.now().minusDays(5));

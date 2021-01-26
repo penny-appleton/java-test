@@ -59,18 +59,5 @@ public class StepDefinitions implements En {
 		DiscountOffer.BREAD_DISCOUNT.setEndDate(LocalDate.now().plusMonths(1));
 	}
 	
-	private void setApplesEligibleAndBreadIneligible() {
-		DiscountOffer.APPLE_DISCOUNT.setStartDate(LocalDate.now().minusDays(5));
-		DiscountOffer.APPLE_DISCOUNT.setEndDate(LocalDate.now().plusMonths(1));
-		DiscountOffer.BREAD_DISCOUNT.setStartDate(LocalDate.now().plusDays(5));
-		DiscountOffer.BREAD_DISCOUNT.setEndDate(LocalDate.now().plusMonths(1));
-	}
-	
-	private void setBreadEligibleAndApplesIneligible() {
-		DiscountOffer.BREAD_DISCOUNT.setStartDate(LocalDate.now().minusDays(5));
-		DiscountOffer.BREAD_DISCOUNT.setEndDate(LocalDate.now().plusMonths(1));
-		DiscountOffer.APPLE_DISCOUNT.setStartDate(LocalDate.now().plusDays(5));
-		DiscountOffer.APPLE_DISCOUNT.setEndDate(LocalDate.now().plusMonths(1));
-		
-	}
+
 }

@@ -51,7 +51,7 @@ public class Discount {
 
 		try {
 			if (apples.size() > 0) {
-				return Math.round((apples.get(0).subtotal() * .1) * 100.00) / 100.00;
+				return Math.round((apples.get(0).subtotal() * DiscountOffer.APPLE_DISCOUNT.getDiscountPercent()) * 100.00) / 100.00;
 
 			}
 
@@ -65,7 +65,7 @@ public class Discount {
 	private double getBreadDiscount(List<LineItem> lineItems) {
 
 		if (checkForBreadLineItem(lineItems) == true && checkForSoupLineItemAndQuantity(lineItems) == true) {
-			return Product.BREAD.getPricePerUnit() * .5;
+			return Product.BREAD.getPricePerUnit() * DiscountOffer.BREAD_DISCOUNT.getDiscountPercent();
 		}
 
 		return 0;
