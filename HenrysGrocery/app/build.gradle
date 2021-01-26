@@ -41,7 +41,7 @@ configurations {
 
 application {
     // Define the main class for the application.
-    mainClass = 'edu.henrys.grocery.Store'
+    mainClass = 'edu.henrys.grocery.Main'
 }
 
 run{
