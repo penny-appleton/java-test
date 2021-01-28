@@ -28,82 +28,85 @@ class DiscountTest {
 	@Test
 	void only1UnitOfBreadShouldBeDiscountedWith2TinsOfSoup() {
 		setAllDiscountsEligible();
-		
+
 		assertEquals(.40, d.calculateDiscountAmount(basketWith2SoupAnd2Bread(), todaysDate));
 	}
 
-
-
-	@Test void toBeEligibleForDiscountTransactionDateMustBeBetweenStartAndEndDateOfDiscount() {
+	@Test
+	void toBeEligibleForDiscountTransactionDateMustBeBetweenStartAndEndDateOfDiscount() {
 		setAllDiscountsIneligible();
-		
+
 		assertEquals(0.00, d.calculateDiscountAmount(basketWith6Apple2SoupAnd2Bread(), todaysDate));
 	}
-	
-	@Test void whenApplesAreEligibleAndBreadIsIneligibleShouldOnlyGetDiscountForApples() {
+
+	@Test
+	void whenApplesAreEligibleAndBreadIsIneligibleShouldOnlyGetDiscountForApples() {
 		setApplesEligibleAndBreadIneligible();
-		
+
 		assertEquals(.06, d.calculateDiscountAmount(basketWith6Apple2SoupAnd2Bread(), todaysDate));
 	}
-	
-	@Test void whenBreadIsEligibleAndApplesAreIneligibleShouldOnlyGetDiscountForBread() {
+
+	@Test
+	void whenBreadIsEligibleAndApplesAreIneligibleShouldOnlyGetDiscountForBread() {
 		setBreadEligibleAndApplesIneligible();
-		
+
 		assertEquals(.40, d.calculateDiscountAmount(basketWith6Apple2SoupAnd2Bread(), todaysDate));
 	}
-	
-	@Test void whenDiscountIsExpiredIShouldNotGetADiscount() {
+
+	@Test
+	void whenDiscountIsExpiredIShouldNotGetADiscount() {
 		setAllDiscountsToExpired();
-		
+
 		assertEquals(0.00, d.calculateDiscountAmount(basketWith6Apple2SoupAnd2Bread(), todaysDate));
 	}
-	
-	
-	
 
+	@Test
+	void allDiscountsShouldBeApplied() {
+		setAllDiscountsEligible();
 
+		assertEquals(.43, d.calculateDiscountAmount(basketWith3Apples2SoupsAnd1Bread(), todaysDate));
+	}
 
-	//Test Helpers
-	
+	// Test Helpers
+
 	private void setAllDiscountsToExpired() {
 		DiscountOffer.APPLE_DISCOUNT.setStartDate(LocalDate.now().minusDays(30));
 		DiscountOffer.APPLE_DISCOUNT.setEndDate(LocalDate.now().minusDays(20));
 		DiscountOffer.BREAD_DISCOUNT.setStartDate(LocalDate.now().minusDays(10));
 		DiscountOffer.BREAD_DISCOUNT.setEndDate(LocalDate.now().minusDays(1));
-		
+
 	}
-	
+
 	private void setAllDiscountsEligible() {
 		DiscountOffer.APPLE_DISCOUNT.setStartDate(LocalDate.now().minusDays(5));
 		DiscountOffer.APPLE_DISCOUNT.setEndDate(LocalDate.now().plusMonths(1));
 		DiscountOffer.BREAD_DISCOUNT.setStartDate(LocalDate.now().minusDays(5));
 		DiscountOffer.BREAD_DISCOUNT.setEndDate(LocalDate.now().plusMonths(1));
 	}
-	
+
 	private void setAllDiscountsIneligible() {
 		DiscountOffer.APPLE_DISCOUNT.setStartDate(LocalDate.now().plusDays(5));
 		DiscountOffer.APPLE_DISCOUNT.setEndDate(LocalDate.now().plusMonths(1));
 		DiscountOffer.BREAD_DISCOUNT.setStartDate(LocalDate.now().plusDays(5));
 		DiscountOffer.BREAD_DISCOUNT.setEndDate(LocalDate.now().plusMonths(1));
 	}
-	
+
 	private void setApplesEligibleAndBreadIneligible() {
 		DiscountOffer.APPLE_DISCOUNT.setStartDate(LocalDate.now().minusDays(5));
 		DiscountOffer.APPLE_DISCOUNT.setEndDate(LocalDate.now().plusMonths(1));
 		DiscountOffer.BREAD_DISCOUNT.setStartDate(LocalDate.now().plusDays(5));
 		DiscountOffer.BREAD_DISCOUNT.setEndDate(LocalDate.now().plusMonths(1));
 	}
-	
+
 	private void setBreadEligibleAndApplesIneligible() {
 		DiscountOffer.BREAD_DISCOUNT.setStartDate(LocalDate.now().minusDays(5));
 		DiscountOffer.BREAD_DISCOUNT.setEndDate(LocalDate.now().plusMonths(1));
 		DiscountOffer.APPLE_DISCOUNT.setStartDate(LocalDate.now().plusDays(5));
 		DiscountOffer.APPLE_DISCOUNT.setEndDate(LocalDate.now().plusMonths(1));
-		
-	}
-	
-	private List<LineItem> basketWithApples() {
 
+	}
+
+	private List<LineItem> basketWithApples() {
 
 		List<LineItem> lis = new ArrayList<>();
 		LineItem li = new LineItem("apple", 6);
@@ -122,7 +125,7 @@ class DiscountTest {
 
 		return lis;
 	}
-	
+
 	private List<LineItem> basketWith2SoupAnd2Bread() {
 		List<LineItem> lis = new ArrayList<>();
 		LineItem li2 = new LineItem("soup", 2);
@@ -134,11 +137,22 @@ class DiscountTest {
 
 	private List<LineItem> basketWith6Apple2SoupAnd2Bread() {
 
-
 		List<LineItem> lis = new ArrayList<>();
 		LineItem li = new LineItem("apple", 6);
 		LineItem li2 = new LineItem("soup", 2);
 		LineItem li3 = new LineItem("Bread", 2);
+		lis.add(li);
+		lis.add(li2);
+		lis.add(li3);
+
+		return lis;
+	}
+
+	private List<LineItem> basketWith3Apples2SoupsAnd1Bread() {
+		List<LineItem> lis = new ArrayList<>();
+		LineItem li = new LineItem("apple", 3);
+		LineItem li2 = new LineItem("soup", 2);
+		LineItem li3 = new LineItem("Bread", 1);
 		lis.add(li);
 		lis.add(li2);
 		lis.add(li3);

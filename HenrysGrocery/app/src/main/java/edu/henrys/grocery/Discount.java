@@ -3,36 +3,40 @@ package edu.henrys.grocery;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 public class Discount {
 
+	private List<LineItem> lineItems;
 	private List<DiscountOffer> eligibleDiscounts = new ArrayList<>();
-	
-	
-//refactor this too many if statements
-	public double calculateDiscountAmount(List<LineItem> lineItems, LocalDate transactionDate) {
-		if (findEligibleDiscounts(transactionDate).size() > 0) {
-			double apples = 0;
-			double bread = 0;
-			for (DiscountOffer eligibleDiscount : eligibleDiscounts) {
-				if (eligibleDiscount.getProductToDiscount() == DiscountOffer.APPLE_DISCOUNT.getProductToDiscount()) {
-					apples = getApplesDiscount(lineItems);
-				}
+	private List<DiscountOffer> basketQaulifiedDiscounts = new ArrayList<>();
+	private Map<LineItem, DiscountOffer> lineItemsAndQualifiedDiscounts = new HashMap<>();
+	private Map<LineItem, Double> lineItemDiscounts = new HashMap<>();
+	private double total;
+	private Map<DiscountOffer, Integer> qualifyingProductQuantity = new HashMap<>();
 
-				if (eligibleDiscount.getProductToDiscount() == DiscountOffer.BREAD_DISCOUNT.getProductToDiscount()) {
-					bread = getBreadDiscount(lineItems);
-				}
+	public double calculateDiscountAmount(List<LineItem> lineItems, LocalDate transactionDate) {
+		this.lineItems = lineItems;
+		findActiveDiscounts(transactionDate);
+		qualifyingProductCheck();
+		productDiscountCheck();
+		if (eligibleDiscounts.size() > 0 && basketQaulifiedDiscounts.size() > 0) {
+			calcuateDiscountPerLineItem();
+			for (Map.Entry<LineItem, Double> entry : lineItemDiscounts.entrySet()) {
+				total = total + entry.getValue();
 			}
-			return apples + bread;
+
+			return Math.round(total * 100.00) / 100.00;
+
 		}
 
-		return 0;
+		return 0.00;
 
 	}
 
-	private List<DiscountOffer> findEligibleDiscounts(LocalDate transactionDate) {
+	private void findActiveDiscounts(LocalDate transactionDate) {
 		List<DiscountOffer> discountOffers = Arrays.asList(DiscountOffer.values());
 
 		for (DiscountOffer discountOffer : discountOffers) {
@@ -42,66 +46,47 @@ public class Discount {
 			}
 		}
 
-		return eligibleDiscounts;
 	}
 
-	private double getApplesDiscount(List<LineItem> lineItems) {
-		List<LineItem> apples = lineItems.stream().filter(item -> item.getProductName().equalsIgnoreCase("apple"))
-				.collect(Collectors.toList());
+	private void qualifyingProductCheck() {
+		lineItems.forEach(lineItem -> {
+			eligibleDiscounts.forEach(discount -> {
 
-		try {
-			if (apples.size() > 0) {
-				return Math.round((apples.get(0).subtotal() * DiscountOffer.APPLE_DISCOUNT.getDiscountPercent()) * 100.00) / 100.00;
-
-			}
-
-		} catch (IndexOutOfBoundsException e) {
-
-		}
-
-		return 0;
-	}
-
-	private double getBreadDiscount(List<LineItem> lineItems) {
-
-		if (checkForBreadLineItem(lineItems) == true && checkForSoupLineItemAndQuantity(lineItems) == true) {
-			return Product.BREAD.getPricePerUnit() * DiscountOffer.BREAD_DISCOUNT.getDiscountPercent();
-		}
-
-		return 0;
-	}
-
-	private boolean checkForSoupLineItemAndQuantity(List<LineItem> lineItems) {
-		List<LineItem> soup = lineItems.stream().filter(item -> item.getProductName().equalsIgnoreCase("soup"))
-				.collect(Collectors.toList());
-
-		try {
-			if (soup.get(0).getQuantity() >= 2) {
-				return true;
-			}
-
-		}
-
-		catch (IndexOutOfBoundsException e) {
-
-		}
-		return false;
+				if (discount.getQualifyingProductName().equalsIgnoreCase(lineItem.getProductName())
+						&& discount.getQualifyingProductQuantity() <= lineItem.getQuantity()) {
+					qualifyingProductQuantity.put(discount, lineItem.getQuantity());
+					basketQaulifiedDiscounts.add(discount);
+				}
+			});
+		});
 
 	}
 
-	private boolean checkForBreadLineItem(List<LineItem> lineItems) {
-		List<LineItem> milk = lineItems.stream().filter(item -> item.getProductName().equalsIgnoreCase("bread"))
-				.collect(Collectors.toList());
+	private void productDiscountCheck() {
+		basketQaulifiedDiscounts.forEach(discount -> {
+			lineItems.forEach(lineItem -> {
+				if (lineItem.getProductName().equalsIgnoreCase(discount.getProductToDiscount())) {
+					lineItemsAndQualifiedDiscounts.put(lineItem, discount);
+				}
+			});
 
-		try {
-			if (milk.get(0).getQuantity() >= 1) {
-				return true;
-			}
-		} catch (IndexOutOfBoundsException e) {
+		});
+	}
+
+	private int numberOfProductsToDiscount(DiscountOffer discount) {
+
+		return qualifyingProductQuantity.get(discount) / discount.getQualifyingProductQuantity();
+	}
+
+	private void calcuateDiscountPerLineItem() {
+		for (Map.Entry<LineItem, DiscountOffer> entry : lineItemsAndQualifiedDiscounts.entrySet()) {
+
+			lineItemDiscounts.put(entry.getKey(),
+					(numberOfProductsToDiscount(entry.getValue())
+							* Product.valueOf(entry.getKey().getProductName().toUpperCase()).getPricePerUnit()
+							* entry.getValue().getDiscountPercent()));
 
 		}
-		return false;
-
 	}
 
 }

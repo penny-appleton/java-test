@@ -12,9 +12,11 @@ public class Transaction {
 	private double total;
 	private int numberOfItems;
 	private LocalDate transactionDate;
+	private Discount d = new Discount();
 	
 	public Transaction(LocalDate transactionDate) {
 		this.transactionDate = transactionDate;
+		
 	}
 
 	public void addLineItem(String product, int quantity) {
@@ -58,10 +60,10 @@ public class Transaction {
 	}
 	
 	private double getDiscountAmount() {
-		Discount d = new Discount();
-		 
 		
 		return d.calculateDiscountAmount(lineItems, transactionDate);
 	}
+	
+	
 
 }
